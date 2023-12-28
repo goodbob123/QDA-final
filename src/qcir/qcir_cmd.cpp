@@ -769,13 +769,13 @@ vector<string> cnu_decompose(vector<vector<complex<double>>> U, int target_bits,
                     temp = temp + "q[" +to_string(j) + "], ";
                 }
             }
-            temp = temp + "q[" +to_string(target_bits) + "];\n";
+            temp = temp + "q[" +to_string(i) + "];\n";
             result.push_back(temp);
 
             //third CV_dag
             U_dag = transposeMatrix(U);
             conjugateMatrix(U_dag);
-            cu_buff = cu_decompose(U, target_bits, i);  // U_dag perhaps?
+            cu_buff = cu_decompose(U_dag, target_bits, i);  // U_dag perhaps?
             result.insert(result.end(), cu_buff.begin(), cu_buff.end()); 
 
 
@@ -1035,7 +1035,7 @@ void decompose(string input, string output){
     
     two_level_matrices[two_level_matrices.size()-1] = matrixMultiply(two_level_matrices[two_level_matrices.size()-1], input_matrix);
 
-    /*//for debug
+    //for debug
     for(int i = 0; i < two_level_matrices.size(); i++){
         cout<<"matrix "<<(i+1)<<":"<<endl;
         for(int j = 0; j < two_level_matrices[i].size(); j++){
@@ -1045,7 +1045,7 @@ void decompose(string input, string output){
             cout<<endl;
         }
         cout<<endl;
-    }*/
+    }
 
     fout<<"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q["<<int(log2(n))<<"];\n\n";
 

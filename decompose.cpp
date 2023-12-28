@@ -180,7 +180,7 @@ vector<string> cnu_decompose(vector<vector<complex<double>>> U, int target_bits,
                     temp = temp + "q[" +to_string(j) + "], ";
                 }
             }
-            temp = temp + "q[" +to_string(target_bits) + "];\n";
+            temp = temp + "q[" +to_string(i) + "];\n";
             result.push_back(temp);
 
             //third CV_dag
@@ -317,7 +317,7 @@ void decompose(string input, string output){
     ofstream fout(output);
     if(!fin.good()){
         cerr<<input<<" not exist\n";
-        return;
+        return ;
     }
     int n;
     fin>>n;
@@ -446,7 +446,7 @@ void decompose(string input, string output){
     
     two_level_matrices[two_level_matrices.size()-1] = matrixMultiply(two_level_matrices[two_level_matrices.size()-1], input_matrix);
 
-    /*//for debug
+    //for debug
     for(int i = 0; i < two_level_matrices.size(); i++){
         cout<<"matrix "<<(i+1)<<":"<<endl;
         for(int j = 0; j < two_level_matrices[i].size(); j++){
@@ -456,7 +456,7 @@ void decompose(string input, string output){
             cout<<endl;
         }
         cout<<endl;
-    }*/
+    }
 
     fout<<"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q["<<int(log2(n))<<"];\n\n";
 
@@ -466,8 +466,8 @@ void decompose(string input, string output){
         vector<vector<complex<double>>> U2;
         int i, j;
         U2 = to_2level(two_level_matrices[t], i, j);
-        // vector<string> str_U2 = cu_decompose(U2, i, j);
-        // print_matrix(U2);
+        //vector<string> str_U2 = cu_decompose(U2, i, j);
+        //print_matrix(U2);
         
         vector<string> str_U2 = gray_code(i,j,(int(log2(n))),U2);
         for (size_t s = 0; s < str_U2.size(); s++) {

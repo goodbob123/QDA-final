@@ -5,3 +5,4 @@
 
 input file格式如final_testcase/0
 先input矩陣大小n,再input欲輸入之矩陣,矩陣element格式為(x,y).每個element對應一個複數,x為實部,y為虛部.
+output為.qasm檔

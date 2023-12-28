@@ -1,0 +1,9 @@
+qcir read ./final_testcase/2_out.qasm
+convert qcir zx
+qcir read ./final_testcase/2.qasm
+convert qcir zx
+zx adjoint
+zx compose 0
+zx test -i
+convert zx tensor
+tensor print

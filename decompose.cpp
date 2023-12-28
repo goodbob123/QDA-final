@@ -95,13 +95,13 @@ vector<double> to_bloch(vector<vector<complex<double>>>& U) {
     assert(U[1].size() == 2);
     
     double theta, lambda, mu, global_phase;
-    // print_matrix(U);
+    print_matrix(U);
 
     theta = acos(abs(U[0][0]));
     global_phase = get_angle(get_det(U)) / 2;
     lambda = get_angle(U[0][0]) - global_phase;
     mu = get_angle(U[0][1]) - global_phase;
-    // cout << theta << " " << lambda << " " << mu << " " << global_phase << endl;
+    cout << theta << " " << lambda << " " << mu << " " << global_phase << endl;
     // if (global_phase > 1e-6) cerr << "not su" << endl;
 
     vector<double> bloch{theta, lambda, mu};
@@ -186,7 +186,7 @@ vector<string> cnu_decompose(vector<vector<complex<double>>> U, int target_bits,
             //third CV_dag
             U_dag = transposeMatrix(U);
             conjugateMatrix(U_dag);
-            cu_buff = cu_decompose(U, target_bits, i);  // U_dag perhaps?
+            cu_buff = cu_decompose(U_dag, target_bits, i);  // U_dag perhaps?
             result.insert(result.end(), cu_buff.begin(), cu_buff.end()); 
 
 
@@ -337,7 +337,7 @@ void decompose(string input, string output){
     
     //check unitary
     assert(isUnitaryMatrix(input_matrix));
-    
+    cerr << "check--isunitary" << endl;
     //2-level decomposition
     vector<vector<vector<complex<double>>>> two_level_matrices;
     bool finish = 1, improve = 0;
@@ -432,7 +432,7 @@ void decompose(string input, string output){
                 finish = 0;
             }
         }
-        
+        cerr << "finish decompose" << endl;
         // for debug
         // cout<<"U : "<<endl;
         // for(int j = 0; j < input_matrix.size(); j++){

@@ -1036,16 +1036,16 @@ void decompose(string input, string output){
     two_level_matrices[two_level_matrices.size()-1] = matrixMultiply(two_level_matrices[two_level_matrices.size()-1], input_matrix);
 
     //for debug
-    for(int i = 0; i < two_level_matrices.size(); i++){
-        cout<<"matrix "<<(i+1)<<":"<<endl;
-        for(int j = 0; j < two_level_matrices[i].size(); j++){
-            for(int k = 0; k < two_level_matrices[i][j].size(); k++){
-                cout<<two_level_matrices[i][j][k]<<" ";
-            }
-            cout<<endl;
-        }
-        cout<<endl;
-    }
+    // for(int i = 0; i < two_level_matrices.size(); i++){
+    //     cout<<"matrix "<<(i+1)<<":"<<endl;
+    //     for(int j = 0; j < two_level_matrices[i].size(); j++){
+    //         for(int k = 0; k < two_level_matrices[i][j].size(); k++){
+    //             cout<<two_level_matrices[i][j][k]<<" ";
+    //         }
+    //         cout<<endl;
+    //     }
+    //     cout<<endl;
+    // }
 
     fout<<"OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q["<<int(log2(n))<<"];\n\n";
 

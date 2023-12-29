@@ -675,6 +675,9 @@ double get_angle(complex<double> s) {
 }
 
 complex<double> get_det(vector<vector<complex<double>>>& U) {
+    assert(U.size() == 2);
+    assert(U[0].size() == 2);
+    assert(U[1].size() == 2);
     return U[0][0]*U[1][1] - U[0][1]*U[1][0];
 }
 
@@ -693,7 +696,7 @@ vector<double> to_bloch(vector<vector<complex<double>>>& U) {
     // cout << theta << " " << lambda << " " << mu << " " << global_phase << endl;
     // if (global_phase > 1e-6) cerr << "not su" << endl;
 
-    vector<double> bloch{theta, lambda, mu};
+    vector<double> bloch{theta, lambda, mu, global_phase};
     if (abs(pow(abs(U[0][0]),2) + pow(abs(U[0][1]),2) - 1) > 1e-3) {
         cerr << "||U|| != 1" << endl;
         bloch.clear(); // ||U|| != 1
@@ -709,7 +712,7 @@ vector<double> to_bloch(vector<vector<complex<double>>>& U) {
 }
 
 vector<string> cu_decompose(vector<vector<complex<double>>>& U, int targit_b, int ctrl_b) {
-    vector<string> ckt(7);
+    vector<string> ckt(8);
     vector<double> U_bloch = to_bloch(U);
     if (U_bloch.empty()) {
         // cerr << "not SU" << endl;
@@ -720,14 +723,16 @@ vector<string> cu_decompose(vector<vector<complex<double>>>& U, int targit_b, in
     double theta = U_bloch[0];
     double lambda = U_bloch[1];
     double mu = U_bloch[2];
+    double global_phase = U_bloch[3];
 
-    ckt[0] = "rz(" + to_string(-mu) +") q[" + to_string(targit_b) + "];"+ "\n";
-    ckt[1] = "cx q[" + to_string(ctrl_b) + "], q[" + to_string(targit_b) + "];\n";
-    ckt[2] = "rz(" + to_string(-lambda) +") q[" + to_string(targit_b) + "];\n";
-    ckt[3] = "ry(" + to_string(-theta) +") q[" + to_string(targit_b) + "];\n";
-    ckt[4] = "cx q[" + to_string(ctrl_b) + "], q[" + to_string(targit_b) + "];\n";
-    ckt[5] = "ry(" + to_string(theta) +") q[" + to_string(targit_b) + "];\n";
-    ckt[6] = "rz(" + to_string(lambda + mu) +") q[" + to_string(targit_b) + "];" + "\n";
+    ckt[0] = "rz(" + to_string(-global_phase) + ") q[" + to_string(ctrl_b) + "];"+ "\n"; //???
+    ckt[1] = "rz(" + to_string(-mu) +") q[" + to_string(targit_b) + "];"+ "\n";
+    ckt[2] = "cx q[" + to_string(ctrl_b) + "], q[" + to_string(targit_b) + "];\n";
+    ckt[3] = "rz(" + to_string(-lambda) +") q[" + to_string(targit_b) + "];\n";
+    ckt[4] = "ry(" + to_string(-theta) +") q[" + to_string(targit_b) + "];\n";
+    ckt[5] = "cx q[" + to_string(ctrl_b) + "], q[" + to_string(targit_b) + "];\n";
+    ckt[6] = "ry(" + to_string(theta) +") q[" + to_string(targit_b) + "];\n";
+    ckt[7] = "rz(" + to_string(lambda + mu) +") q[" + to_string(targit_b) + "];" + "\n";
 
     return ckt;
 }

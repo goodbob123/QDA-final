@@ -1,10 +1,13 @@
-qcir u ./final_testcase/example.txt ./final_testcase/example_out.qasm
-qcir read ./final_testcase/example_out.qasm
+qcir u ./final_testcase/3.txt ./final_testcase/3_out.qasm
+qcir read ./final_testcase/3_out.qasm
+qcir print
 convert qcir zx
-qcir read ./final_testcase/example.qasm
+qcir read ./final_testcase/3.qasm
+qcir print
 convert qcir zx
 zx adjoint
 zx compose 0
 zx test -i
+zx optimize
 convert zx tensor
 tensor print
